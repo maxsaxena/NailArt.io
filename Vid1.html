@@ -111,27 +111,25 @@ a:visited{}
     </a><br>
 
     <script>
-        function openLink(appUrl, webUrl) {
+        function openLink(appPackage, webUrl) {
     let isAndroid = navigator.userAgent.toLowerCase().indexOf("android") > -1;
-    
-    if (isAndroid) {
-        let startTime = Date.now();
-        
-        // Open the deep link
-        window.location.href = appUrl;
 
-        // If app is not installed, redirect to web URL after delay
+    if (isAndroid) {
+        let intentUrl = `intent://details?id=${appPackage}#Intent;scheme=market;package=com.android.vending;end;`;
+
+        // Try to open the app
+        window.location.href = intentUrl;
+
+        // If the app doesn't open, redirect to Play Store after a short delay
         setTimeout(function () {
-            let elapsedTime = Date.now() - startTime;
-            if (elapsedTime < 1500) { // App didn't open, so go to Play Store
-                window.location.href = webUrl;
-            }
-        }, 1000);
+            window.location.href = webUrl;
+        }, 1500);
     } else {
-        // Directly open web URL for non-Android devices
+        // For non-Android users, open the Play Store page directly
         window.location.href = webUrl;
     }
 }
+
 
     </script>
 
