@@ -113,24 +113,26 @@ a:visited{}
     <script>
         function openLink(appUrl, webUrl) {
     let isAndroid = navigator.userAgent.toLowerCase().indexOf("android") > -1;
-
+    
     if (isAndroid) {
         let startTime = Date.now();
-        let hiddenFrame = document.createElement("iframe");
-        hiddenFrame.style.display = "none";
-        hiddenFrame.src = appUrl;
-        document.body.appendChild(hiddenFrame);
+        
+        // Open the deep link
+        window.location.href = appUrl;
 
+        // If app is not installed, redirect to web URL after delay
         setTimeout(function () {
             let elapsedTime = Date.now() - startTime;
-            if (elapsedTime < 1500) {
-                window.location.href = webUrl; // Open web link if app is not installed
+            if (elapsedTime < 1500) { // App didn't open, so go to Play Store
+                window.location.href = webUrl;
             }
         }, 1000);
     } else {
-        window.location.href = webUrl; // Non-Android devices directly open the web link
+        // Directly open web URL for non-Android devices
+        window.location.href = webUrl;
     }
 }
+
     </script>
 
 
